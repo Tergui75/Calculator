@@ -1,0 +1,36 @@
+
+<html lang="fr">
+    
+    <head>
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="style.css">
+
+        
+    </head>
+    <script src="tp1.js"></script>
+
+    <header>
+        <h1>Calculatrice</h1>
+        <br>
+    </header>
+    
+    <body>
+        <div class="bloc">
+            <input type="number" id="n1">
+            <select id="operation">
+                <option value="addition">+</option>
+                <option value="soustraction">-</option>
+                <option value="multiplication">*</option>
+                <option value="division">/</option>
+            </select>
+            <input type="number" id="n2" >
+            <button onclick="calcul()">=</button>
+            <div class="resultat" id="resultat"></div>
+        </div>
+    </body>
+
+    <footer>
+        <button onclick="save()">Save</button>
+        <button onclick="restore()">Restore</button>
+    </footer>
+</html>
