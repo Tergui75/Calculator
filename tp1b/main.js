@@ -11,16 +11,10 @@ function selectOperation() {
 
 // updateOutput function definition
 function updateOutput() {
-  // Retrieve the input elements
-  const operand1Elt = document.querySelector("#operand1")
-  const operand2Elt = document.querySelector("#operand2")
-  
-  // Converting counter value attributes to int
-  let operand1Val = parseInt(operand1Elt.value)  
-  let operand2Val = parseInt(operand2Elt.value)
 
-  // console.log(operand1Val)
-  // console.log(operand2Val)
+  var operand1Val = parseFloat(document.getElementById('operand1').value);
+  var operand2Val = parseFloat(document.getElementById('operand2').value);
+
   selectedOperation = selectOperation()
   // console.log(selectedOperation)
 
@@ -40,4 +34,60 @@ function updateOutput() {
   }
 
   return result.value
+}
+
+function save(){
+  var savea = parseFloat(document.getElementById('operand1').value);
+  var saveb = parseFloat(document.getElementById('operand2').value);
+
+  localStorage.setItem('operand1', savea);
+  localStorage.setItem('operand2', saveb);
+
+}
+function restore(){
+  var savea = localStorage.getItem('operand1');
+  var saveb = localStorage.getItem('operand2');
+  document.getElementById('operand1').value = '';
+  document.getElementById('operand2').value = '';
+  document.getElementById('operand1').value = savea;
+  document.getElementById('operand2').value = saveb;
+  updateOutput();
+}
+
+function add(id,number){
+  var operand = "operand" + id;
+  var valeur = (document.getElementById(operand).value);
+  console.log("operand1 =" + valeur);
+  
+
+  if(valeur==0){
+    document.getElementById(operand).value = '';
+    valeur='';
+  }
+  if((number=="11")||(number =="21")){
+    valeur = valeur * (-1);
+  }
+  else if((number=="12")||(number =="22")){
+    number = ".0";
+    valeur += number.toString();
+  }
+  else{
+    valeur += number.toString();
+  }
+  console.log("valeur = " + valeur);
+  document.getElementById(operand).value = valeur;
+
+  
+}
+
+function del(id){
+  var operand = "operand" + id;
+  var valeur = parseFloat(document.getElementById(operand).value);
+  var newvaleur = Math.floor(valeur / 10);
+  document.getElementById(operand).value = newvaleur;
+}
+
+function c(id){
+  var operand = "operand" + id;
+  document.getElementById(operand).value = 0;
 }
