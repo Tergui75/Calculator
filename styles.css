@@ -1,0 +1,33 @@
+body {
+  background-color: ivory;
+  font-size: x-large;
+  text-align: center;
+}
+header {
+  color: blueviolet;
+  font-weight: bold;
+  margin: 2%;
+}
+select, button {
+  color: orangered;
+  border-color: orangered;
+  border-width: 1%;
+  margin: 1% 1%;
+  font-size: x-large;
+  font-weight: bold;
+}
+input {
+  font-size: inherit;
+  border-color: blue;
+  color: blue;
+  width: 25%;
+}
+output {
+  color: blue;
+  font-size: larger;
+}
+/* .flexContainer {
+  display: flex;
+  flex-wrap: wrap;
+} */
+

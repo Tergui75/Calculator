@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title> Responsive Volatile Input Operand Pair Calculator HTML CSS JS  </title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta charset="UTF-8">
+  <script src="main.js" type=""module"></script>
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+  <header>
+    Welcome to the Responsive Volatile Input Operand Pair Calculator tutorial app in Vanilla
+    <a href="https://www.w3schools.com/html/default.asp">HTML</a>+ 
+    <a href="https://www.w3schools.com/css/default.asp">CSS</a> +
+    <a href="https://www.w3schools.com/js/default.asp">JS</a> !
+  </header>
+ 
+  <main>
+    <form>
+      <input id="operand1" type="number" value="0">
+      <select name="operationSelect" id="operationSelect" onchange="selectOperation()">
+        <option id="+" value="add"> + </option>
+        <option id="-" value="substract"> - </option>
+        <option id="*" value="multiply"> * </option>
+        <option id="/" value="divide"> / </option>
+      </select>
+      <input id="operand2" type="number" value="0">
+      <button id="equals" type="button" onclick="updateOutput()"> = </button>
+      <output id="result" for="operand1 operand2">0</output>
+    </form>
+    
+  </main>
+
+</body>
+</html>
