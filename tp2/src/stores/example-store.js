@@ -1,15 +1,48 @@
-import { defineStore } from 'pinia';
+import { defineStore } from "pinia";
+import { LocalStorage } from "quasar";
 
-export const useCounterStore = defineStore('counter', {
+export const useCounterStore = defineStore("counters", {
   state: () => ({
-    counter: 0,
+    counters: {
+      A: 0,
+      B: 0,
+    },
+    operator: "+",
   }),
   getters: {
-    doubleCount: (state) => state.counter * 2,
+    total(state) {
+      switch (state.operator) {
+        case "+":
+          return state.counters["A"] + state.counters["B"];
+        case "-":
+          return state.counters["A"] - state.counters["B"];
+        case "*":
+          return state.counters["A"] * state.counters["B"];
+        case "/":
+          return state.counters["A"] / state.counters["B"];
+        default:
+          return 0;
+      }
+    },
   },
   actions: {
-    increment() {
-      this.counter++;
+    increment(ctr_name) {
+      this.counters[ctr_name]++;
+    },
+    decrement(ctr_name) {
+      this.counters[ctr_name]--;
+    },
+    reset(ctr_name) {
+      this.counters[ctr_name] = 0;
+    },
+    storeCounter(ctr_name) {
+      LocalStorage.set(ctr_name, this.counters[ctr_name]);
+    },
+    restoreCounter(ctr_name) {
+      this.counters[ctr_name] = LocalStorage.getItem(ctr_name);
+    },
+    setOperator(op) {
+      this.operator = op;
     },
   },
 });

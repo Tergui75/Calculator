@@ -17,7 +17,20 @@ const counterValue = computed({
   get: () => props.counterValue,
   set: (val) => emit("update:counterValue", val),
 })
+const clear = () => {
+  emit("update:counterValue", 0);
+}
 
+const saveToLocalStorage = () => {
+  localStorage.setItem(`operand_${props.id}`, props.counterValue.toString());
+}
+
+const restoreFromLocalStorage = () => {
+  const savedValue = localStorage.getItem(`operand_${props.id}`);
+  if (savedValue !== null) {
+    emit("update:counterValue", parseInt(savedValue));
+  }
+}
 //const counterValue = ref(0)
 </script>
 
@@ -56,4 +69,31 @@ const counterValue = computed({
     )
       q-tooltip(anchor="top right").bg-teal decrement
       q-icon(name="arrow_drop_down", size="md")
+  .row.justify-center.items-center
+
+      q-btn.q-ma-md.col-1(
+        rounded,
+
+        @click="saveToLocalStorage",
+        data-cy="btn-save"
+      )
+        q-tooltip(anchor="top left").bg-teal save to local storage
+        q-icon(name="save", size="md")
+      
+      q-btn.q-ma-md.col-1(
+        rounded,
+
+        @click="clear",
+        data-cy="btn-clear"
+      )
+        q-tooltip(anchor="top left").bg-teal reset
+        q-icon(name="clear", size="md")
+
+      q-btn.q-ma-md.col-1(
+        rounded,
+        @click="restoreFromLocalStorage",
+        data-cy="btn-restore"
+      )
+        q-tooltip(anchor="top left").bg-teal restore from local storage
+        q-icon(name="restore", size="md")
 </template>
