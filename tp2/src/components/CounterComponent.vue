@@ -1,5 +1,6 @@
 <script setup>
 import { computed, defineComponent} from "vue"
+import { states } from "../stores/example-store.js";
 
 defineComponent({ name: "CounterComponent" })
 const props = defineProps({
@@ -12,26 +13,16 @@ const props = defineProps({
     required: true,
   },
 })
+
+
 const emit = defineEmits(['update:counterValue']);
 const counterValue = computed({
-  get: () => props.counterValue,
-  set: (val) => emit("update:counterValue", val),
+  get: () => states.counters[props.id],
+  set: (val) => {
+    states.counters[props.id] = val;
+    emit("update:counterValue", val);
+  },
 })
-const clear = () => {
-  emit("update:counterValue", 0);
-}
-
-const saveToLocalStorage = () => {
-  localStorage.setItem(`operand_${props.id}`, props.counterValue.toString());
-}
-
-const restoreFromLocalStorage = () => {
-  const savedValue = localStorage.getItem(`operand_${props.id}`);
-  if (savedValue !== null) {
-    emit("update:counterValue", parseInt(savedValue));
-  }
-}
-//const counterValue = ref(0)
 </script>
 
 <template lang="pug">
@@ -42,7 +33,7 @@ const restoreFromLocalStorage = () => {
     q-btn.q-ma-md.col-1(
       rounded,
       color="cyan",
-      @click="counterValue++",
+      @click="states.increment(props.id);",
       data-cy="btn-up"
     )
       q-tooltip(anchor="top left").bg-teal increment
@@ -64,7 +55,7 @@ const restoreFromLocalStorage = () => {
     q-btn.q-ma-md.col-1(
       rounded,
       color="cyan",
-      @click="counterValue--",
+      @click="states.decrement(props.id)",
       data-cy="btn-dn"
     )
       q-tooltip(anchor="top right").bg-teal decrement
@@ -74,7 +65,7 @@ const restoreFromLocalStorage = () => {
       q-btn.q-ma-md.col-1(
         rounded,
 
-        @click="saveToLocalStorage",
+        @click="states.storeCounter(props.id)",
         data-cy="btn-save"
       )
         q-tooltip(anchor="top left").bg-teal save to local storage
@@ -83,7 +74,7 @@ const restoreFromLocalStorage = () => {
       q-btn.q-ma-md.col-1(
         rounded,
 
-        @click="clear",
+        @click="states.reset(props.id)",
         data-cy="btn-clear"
       )
         q-tooltip(anchor="top left").bg-teal reset
@@ -91,9 +82,16 @@ const restoreFromLocalStorage = () => {
 
       q-btn.q-ma-md.col-1(
         rounded,
-        @click="restoreFromLocalStorage",
+        @click="states.restoreCounter(props.id)",
         data-cy="btn-restore"
       )
         q-tooltip(anchor="top left").bg-teal restore from local storage
         q-icon(name="restore", size="md")
+      q-btn.q-ma-md.col-1(
+        rounded,
+        @click="states.delCounter(props.id)",
+        data-cy="btn-del"
+      )
+        q-tooltip(anchor="top left").bg-teal delete
+        q-icon(name="delete", size="md")
 </template>
