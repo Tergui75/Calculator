@@ -1,49 +1,39 @@
-// Use `cy.dataCy` custom command for more robust tests
-// See https://docs.cypress.io/guides/references/best-practices.html#Selecting-Elements
-
-// ** This file is an example of how to write Cypress tests, you can safely delete it **
-
-// This test will pass when run against a clean Quasar project
-
-Cypress.on('uncaught:exception', (err, runnable) => {
-  // Ne pas échouer les tests pour les erreurs non capturées
-  return false;
-});
+// counter_spec.js
 
 describe("Tests for the Quasar Counter App", () => {
   beforeEach(() => {
     cy.visit("http://localhost:9000/#/");
   });
-  it("the counter must go up when clicking on the button", () => {
-    cy.get('#counter_A  [data-cy="btn-up"]').click();
-    cy.get('#counter_A  [data-cy="input"]').should("have.value", 1);
+
+  it("should add a new operand on the 1st click", () => {
+    // Vérifier qu'aucun élément operand n'existe initialement
+    cy.get(".operand").should("not.exist");
+
+    // Cliquer sur le bouton "Add Operand"
+    cy.contains("Add Operand").click();
+
+    // Vérifier qu'un nouvel élément operand a été ajouté
+    cy.get(".operand").should("have.length", 1);
   });
-  it("the counter must go down when clicking on the button", () => {
-    cy.get('#counter_A  [data-cy="btn-dn"]').click();
-    cy.get('#counter_A  [data-cy="input"]').should("have.value", -1);
+
+  it("should add an operator menu on the 2nd click", () => {
+    // Vérifier qu'aucun élément operator menu n'existe initialement
+    cy.get(".operator-menu").should("not.exist");
+
+    // Cliquer deux fois sur le bouton "Add Operand"
+    cy.contains("Add Operand").click();
+    cy.contains("Add Operand").click();
+
+    // Vérifier qu'un nouvel élément operator menu a été ajouté
+    cy.get(".operator-menu").should("have.length", 1);
   });
-  it("the counter results must be correct", () => {
-    const letters = ["A", "B"];
-    letters.forEach((letter) => {
-      cy.get(`#counter_${letter}`)
-        .find('[data-cy="btn-up"]')
-        .click()
-        .click()
-        .click();
-      cy.get(`#counter_${letter}`)
-        .find('[data-cy="input"]')
-        .should("have.value", 3);
-    });
-    const operators = [
-      ["+", 6],
-      ["-", 0],
-      ["*", 9],
-      ["/", 1],
-    ];
-    operators.forEach(([operator, result]) => {
-      cy.dataCy("select").click();
-      cy.dataCy("select").get(`[label="${operator}"]`).click();
-      cy.get('[data-cy="total"]').should("have.text", result);
-    });
+
+  it("should allow entering values in operand input fields", () => {
+    // Sélectionner un champ d'entrée d'opérande et saisir une valeur
+    cy.get(".operand input").first().type("123");
+
+    // Vérifier que la valeur a été saisie correctement
+    cy.get(".operand input").first().should("have.value", "123");
   });
+
 });

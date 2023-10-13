@@ -1,12 +1,15 @@
 import { reactive } from "vue";
 import { defineStore } from "pinia";
 import { LocalStorage } from "quasar";
-
+import { Dialog } from "quasar";
 import { defineComponent, ref } from 'vue';
 
 export const states = reactive({
-    counters: {},
-  operator: {},
+    counters: {
+      A:0,
+      B:0,
+    },
+  operator: {A:'+' , B:'+'},
   
     total() {
       let result =0;
@@ -15,6 +18,8 @@ export const states = reactive({
       for (const key in this.operator) {
         if (this.operator.hasOwnProperty(key)) {
           const value = this.counters[key];
+          console.log("operateur =" + operator);
+    
           switch (operator) {
             case "+":
               result += value;
@@ -31,6 +36,7 @@ export const states = reactive({
             default:
               break;
           }
+          console.log("resulat =" + result);
         }
         operator = this.operator[key];
       }
