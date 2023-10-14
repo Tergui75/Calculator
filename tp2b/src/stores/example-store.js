@@ -5,20 +5,15 @@ import { Dialog } from "quasar";
 import { defineComponent, ref } from 'vue';
 
 export const states = reactive({
-    counters: {
-      A:0,
-      B:0,
-    },
-  operator: {A:'+' , B:'+'},
-  
+    counters: {},
+    operator: {},
+    virgule:0,
     total() {
       let result =0;
       var operator ='+';
-      console.log("intit = " + result);
       for (const key in this.operator) {
         if (this.operator.hasOwnProperty(key)) {
           const value = this.counters[key];
-          console.log("operateur =" + operator);
     
           switch (operator) {
             case "+":
@@ -36,7 +31,6 @@ export const states = reactive({
             default:
               break;
           }
-          console.log("resulat =" + result);
         }
         operator = this.operator[key];
       }
@@ -75,5 +69,38 @@ export const states = reactive({
         delete this.counters[ctr_name];
         delete this.operator[ctr_name];
       }
+    },
+    add_number(ctr_name,number){
+      var valeur=this.counters[ctr_name].toString();
+      if(valeur==0){
+        this.counters[ctr_name] = '';
+        valeur='';
+      }
+      if(number=="11"){
+        valeur = valeur * (-1);
+      }
+      else if(number=="12"){
+        if(!valeur.includes('.')) {
+          this.virgule = 1;
+        }
+      }
+      else{
+        if(this.virgule == 1){
+          valeur += '.';
+          valeur += number.toString();
+          
+          this.virgule=0;
+        }
+        else{
+          valeur += number.toString();
+        }
+      }
+      this.counters[ctr_name] = parseFloat(valeur);
+    },
+
+    del_number(ctr_name){
+      var valeur = this.counters[ctr_name];
+      var newvaleur = Math.floor(valeur / 10);
+      this.counters[ctr_name] = newvaleur;
     }
   })
