@@ -5,7 +5,7 @@ import { LocalStorage } from "quasar";
 import { defineComponent, ref } from 'vue';
 
 export const states = reactive({
-    counters: {},
+  counters: {},
   operator: {},
   
     total() {
