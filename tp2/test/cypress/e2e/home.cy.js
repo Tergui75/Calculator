@@ -14,7 +14,7 @@ describe("Tests for the Quasar Counter App", () => {
   beforeEach(() => {
     cy.visit("http://localhost:9000/#/");
   });
-  /*it("the counter must go up when clicking on the button", () => {
+  it("the counter must go up when clicking on the button", () => {
     cy.window().then((win) => {cy.stub(win, 'prompt').onCall(0).returns('A').onCall(1).returns('B'); cy.get('[data-cy=btn-add-new-operand]').click();cy.get('[data-cy=btn-add-new-operand]').click();});
     cy.get('#counter_A  [data-cy="btn-up"]').click();
     cy.get('#counter_A  [data-cy="input"]').should("have.value", 1);
@@ -87,7 +87,7 @@ describe("Tests for the Quasar Counter App", () => {
     cy.get('#counter_A  [data-cy="input"]').type(16);
     cy.get('#counter_A  [data-cy="btn-clear"]').click();
     cy.get('#counter_A  [data-cy="input"]').should("have.value", 0);
-  });*/
+  });
 
   it("Les boutons save et restore fonctionent", () => {
     cy.window().then((win) => {cy.stub(win, 'prompt').returns('A'); cy.get('[data-cy=btn-add-new-operand]').click();});
@@ -97,6 +97,33 @@ describe("Tests for the Quasar Counter App", () => {
     cy.get('#counter_A  [data-cy="btn-restore"]').click();
     cy.get('#counter_A  [data-cy="input"]').should("have.value", 16);
 
+  });
+
+  it('Designs Responsive : Ordinateur', () => {
+    cy.window().then((win) => {cy.stub(win, 'prompt').onCall(0).returns('A').onCall(1).returns('B'); cy.get('[data-cy=btn-add-new-operand]').click();cy.get('[data-cy=btn-add-new-operand]').click();});
+    cy.viewport(1200, 800);
+    cy.get('#counter_A').should('be.visible');
+    cy.get('#operator_A').should('be.visible');
+    cy.get('#counter_B').should('be.visible');
+    cy.get('[data-cy="total"]').should('be.visible');
+  });
+
+  it('Designs Responsive : Tablette', () => {
+    cy.window().then((win) => {cy.stub(win, 'prompt').onCall(0).returns('A').onCall(1).returns('B'); cy.get('[data-cy=btn-add-new-operand]').click();cy.get('[data-cy=btn-add-new-operand]').click();});
+    cy.viewport(768, 1024);
+    cy.get('#counter_A').should('be.visible');
+    cy.get('#operator_A').should('be.visible');
+    cy.get('#counter_B').should('be.visible');
+    cy.get('[data-cy="total"]').should('be.visible');
+  });
+
+  it('Designs Responsive : Téléphone portable', () => {
+    cy.window().then((win) => {cy.stub(win, 'prompt').onCall(0).returns('A').onCall(1).returns('B'); cy.get('[data-cy=btn-add-new-operand]').click();cy.get('[data-cy=btn-add-new-operand]').click();});
+    cy.viewport(375, 667);
+    cy.get('#counter_A').should('be.visible');
+    cy.get('#operator_A').should('be.visible');
+    cy.get('#counter_B').should('be.visible');
+    cy.get('[data-cy="total"]').should('be.visible');
   });
 
    it("Test X", () => {
