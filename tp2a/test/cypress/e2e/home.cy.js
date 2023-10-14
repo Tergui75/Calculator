@@ -14,12 +14,12 @@ describe("Tests for the Quasar Counter App", () => {
   beforeEach(() => {
     cy.visit("http://localhost:9000/#/");
   });
-  it("the counter must go up when clicking on the button", () => {
+  it("Test bouton increment", () => {
     cy.window().then((win) => {cy.stub(win, 'prompt').onCall(0).returns('A').onCall(1).returns('B'); cy.get('[data-cy=btn-add-new-operand]').click();cy.get('[data-cy=btn-add-new-operand]').click();});
     cy.get('#counter_A  [data-cy="btn-up"]').click();
     cy.get('#counter_A  [data-cy="input"]').should("have.value", 1);
   });
-  it("the counter must go down when clicking on the button", () => {
+  it("Test bouton decrement", () => {
     cy.window().then((win) => {cy.stub(win, 'prompt').onCall(0).returns('A').onCall(1).returns('B'); cy.get('[data-cy=btn-add-new-operand]').click();cy.get('[data-cy=btn-add-new-operand]').click();});
     cy.get('#counter_A  [data-cy="btn-dn"]').click().click();
     cy.get('#counter_A  [data-cy="input"]').should("have.value", -2);
@@ -62,12 +62,12 @@ describe("Tests for the Quasar Counter App", () => {
      cy.get('#operator_A  [data-cy="select"]').get(`[label="/"]`).click();
      cy.get('[data-cy="total"]').should("have.text", 4);
    });
-   it("Test Premier click", () => {
+   it("Test Premier Click Add a New component", () => {
     cy.window().then((win) => {cy.stub(win, 'prompt').returns('A'); cy.get('[data-cy=btn-add-new-operand]').click();});
     cy.get('.column.justify-evenly').should('have.length', 1);
 
    });
-   it("Test Deuxième Click", () => {
+   it("Test Deuxième Click Add a New component", () => {
       cy.window().then((win) => {cy.stub(win, 'prompt').onCall(0).returns('A').onCall(1).returns('B'); cy.get('[data-cy=btn-add-new-operand]').click();cy.get('[data-cy=btn-add-new-operand]').click();});
       cy.get('.column.justify-evenly').should('have.length', 3);
  
@@ -82,14 +82,14 @@ describe("Tests for the Quasar Counter App", () => {
      cy.get('#counter_B  [data-cy="input"]').should("have.value", 4);
   });
 
-  it("Le bouton clear fonctione", () => {
+  it("Le bouton clear fonctionne", () => {
     cy.window().then((win) => {cy.stub(win, 'prompt').returns('A'); cy.get('[data-cy=btn-add-new-operand]').click();});
     cy.get('#counter_A  [data-cy="input"]').type(16);
     cy.get('#counter_A  [data-cy="btn-clear"]').click();
     cy.get('#counter_A  [data-cy="input"]').should("have.value", 0);
   });
 
-  it("Les boutons save et restore fonctionent", () => {
+  it("Les boutons save et restore fonctionnent", () => {
     cy.window().then((win) => {cy.stub(win, 'prompt').returns('A'); cy.get('[data-cy=btn-add-new-operand]').click();});
     cy.get('#counter_A  [data-cy="input"]').type(16);
     cy.get('#counter_A  [data-cy="btn-save"]').click();

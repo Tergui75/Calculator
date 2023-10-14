@@ -26,7 +26,7 @@ const operator = computed({
 <template lang="pug">
 .column.justify-evenly(:id="'operator_' + props.id")
   .row.justify-center.items-center
-    p.q-ma-md.text-h5.text-purple-9.self-center Operator {{ props.id }}
+    p.q-ma-md.text-h5.text-purple-9.self-center
   .column.items-end.self-end
     .q-py-lg
       q-btn-dropdown(color="primary" :label="operator" split size="lg" data-cy="select").fixed-width
