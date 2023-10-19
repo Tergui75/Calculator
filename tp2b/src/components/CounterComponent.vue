@@ -58,7 +58,7 @@ const counterValue = computed({
     ).q-mb-md DEL 
 
 
-      
+  
   .row.justify-center.items-center
     q-btn.q-ma-md.col-1(
         rounded,

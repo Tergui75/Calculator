@@ -12,7 +12,7 @@ Cypress.on('uncaught:exception', (err, runnable) => {
 
 describe("Tests for the Quasar Counter App", () => {
   beforeEach(() => {
-    cy.visit("http://localhost:9000/#/");
+    cy.visit("http://127.0.0.1:8080/");
   });
   it("Test +", () => {
     cy.window().then((win) => {cy.stub(win, 'prompt').onCall(0).returns('A').onCall(1).returns('B'); cy.get('[data-cy=btn-add-new-operand]').click();cy.get('[data-cy=btn-add-new-operand]').click();});
@@ -89,6 +89,13 @@ describe("Tests for the Quasar Counter App", () => {
 
   });
 
+  it("Le bouton supprimer un nombre fonctionne", () => {
+    cy.window().then((win) => {cy.stub(win, 'prompt').returns('A'); cy.get('[data-cy=btn-add-new-operand]').click();});
+    cy.get('#counter_A  [data-cy="btn-1"]').click();
+    cy.get('#counter_A  [data-cy="btn-6"]').click();
+    cy.get('#counter_A  [data-cy="btn-dn"]').click();
+    cy.get('#counter_A  [data-cy="input"]').should("have.value", 1);
+  });
 
   it("Le bouton clear fonctionne", () => {
     cy.window().then((win) => {cy.stub(win, 'prompt').returns('A'); cy.get('[data-cy=btn-add-new-operand]').click();});
@@ -135,7 +142,4 @@ describe("Tests for the Quasar Counter App", () => {
     cy.get('#counter_B').should('be.visible');
     cy.get('[data-cy="total"]').should('be.visible');
   })
-    it("Test X", () => {
-  
-   });
 });
