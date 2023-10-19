@@ -8,7 +8,7 @@ export const states = reactive({
   counters: {},
   operator: {},
   
-    total() {
+    total() {// Permet de faire le total de tous les counters
       let result =0;
       var operator ='+';
       console.log("intit = " + result);
@@ -56,7 +56,7 @@ export const states = reactive({
     setOperator(op) {
       this.operator = op;
     },
-    addCounter() {
+    addCounter() {//Permet de rajouter un counter égale à 0 et son operateur qui le suit +
       const name = prompt("Name of the new operand");
       
     if(name !== null){
@@ -64,7 +64,7 @@ export const states = reactive({
       this.operator[name]=ref('+');
     }
     },
-    delCounter(ctr_name) {
+    delCounter(ctr_name) {//Permet de supprimer un counter
       if (ctr_name in this.counters) {
         delete this.counters[ctr_name];
         delete this.operator[ctr_name];

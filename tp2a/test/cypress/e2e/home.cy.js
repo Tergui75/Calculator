@@ -12,7 +12,7 @@ Cypress.on('uncaught:exception', (err, runnable) => {
 
 describe("Tests for the Quasar Counter App", () => {
   beforeEach(() => {
-    cy.visit("http://localhost:9000/#/");
+    cy.visit("http://127.0.0.1:8080/");
   });
   it("Test bouton increment", () => {
     cy.window().then((win) => {cy.stub(win, 'prompt').onCall(0).returns('A').onCall(1).returns('B'); cy.get('[data-cy=btn-add-new-operand]').click();cy.get('[data-cy=btn-add-new-operand]').click();});
@@ -126,7 +126,4 @@ describe("Tests for the Quasar Counter App", () => {
     cy.get('[data-cy="total"]').should('be.visible');
   });
 
-   it("Test X", () => {
-  
-   });
 });
