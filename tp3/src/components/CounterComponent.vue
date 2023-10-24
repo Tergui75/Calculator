@@ -1,15 +1,28 @@
 <script setup>
-import { defineComponent } from "vue";
-import { useCounterStore } from "src/stores/counterStore";
+import { computed, defineComponent} from "vue"
+import { states } from "../stores/example-store.js";
 
-defineComponent({ name: "CounterComponent" });
+defineComponent({ name: "CounterComponent" })
 const props = defineProps({
   id: {
     type: String,
     required: true,
   },
-});
-const store = useCounterStore();
+  counterValue: {
+    type: Number,
+    required: true,
+  },
+})
+
+
+const emit = defineEmits(['update:counterValue']);
+const counterValue = computed({
+  get: () => states.counters[props.id],
+  set: (val) => {
+    states.counters[props.id] = parseFLoat(val);
+    emit("update:counterValue", parseFloat(val));
+  },
+})
 </script>
 
 <template lang="pug">
@@ -18,15 +31,15 @@ const store = useCounterStore();
     p.q-ma-md.text-h5.text-purple-9.self-center Operand {{ props.id }}
   .row.justify-center.items-end
     q-btn.q-ma-md.col-1(
-      rounded,
-      color="cyan",
-      @click="store.increment(props.id)",
-      data-cy="btn-up"
-    )
-      q-tooltip(anchor="top left").bg-teal increment
-      q-icon(name="arrow_drop_up", size="md")
+        rounded,
+        color="cyan"
+        @click="states.reset(props.id)",
+        data-cy="btn-clear"
+      ).q-mb-md C
     q-input.col-8(
-      v-model.number="store.counters[props.id]",
+      :model-value="counterValue",
+      :readonly="true",
+      @update:model-value="$emit('update:counterValue', parseFloat($event))",
       placeholder="Enter number",
       error-message = "Input must be a number",
       outlined,
@@ -36,39 +49,115 @@ const store = useCounterStore();
       :rules="[val => (Number.isFinite(val)) || 'error']",
       data-cy="input"
     )
-      q-tooltip(anchor="bottom middle").bg-teal Enter number
     // span.text-h5.text-cyan.flex.flex-center.q-mx-md {{ counterValue }}
     q-btn.q-ma-md.col-1(
       rounded,
       color="cyan",
-      @click="store.decrement(props.id)",
+      @click="states.del_number(props.id)",
       data-cy="btn-dn"
-    )
-      q-tooltip(anchor="top right").bg-teal decrement
-      q-icon(name="arrow_drop_down", size="md")
+    ).q-mb-md DEL 
+
+
+  
   .row.justify-center.items-center
-    q-btn.q-ma-md.col(
-      rounded,
-      color="primary",
-      data-cy="btn-save",
-      @click="store.storeCounter(props.id)"
-    )
-      q-tooltip(anchor="top left").bg-teal save
-      q-icon(name="save", size="md")
     q-btn.q-ma-md.col-1(
-      rounded,
-      color="cyan",
-      @click="store.reset(props.id)",
-      data-cy="btn-reset"
-    )
-      q-tooltip(anchor="top left").bg-teal reset
-      q-icon(name="refresh", size="md")
-    q-btn.q-ma-md.col(
-      rounded,
-      color="primary",
-      data-cy="btn-restore",
-      @click="store.restoreCounter(props.id)"
-    )
-      q-tooltip(anchor="top left").bg-teal restore
-      q-icon(name="restore", size="md")
+        rounded,
+        color="primary",
+        @click="states.add_number(props.id,1)",
+        data-cy="btn-1"
+      ).q-mb-md 1
+    q-btn.q-ma-md.col-1(
+        rounded,
+        color="primary",
+        @click="states.add_number(props.id,2)",
+        data-cy="btn-2"
+      ).q-mb-md 2
+    q-btn.q-ma-md.col-1(
+        rounded,
+        color="primary",
+        @click="states.add_number(props.id,3)",
+        data-cy="btn-3"
+      ).q-mb-md 3
+  .row.justify-center.items-center
+    q-btn.q-ma-md.col-1(
+        rounded,
+        color="primary",
+        @click="states.add_number(props.id,4)",
+        data-cy="btn-4"
+      ).q-mb-md 4
+    q-btn.q-ma-md.col-1(
+        rounded,
+        color="primary",
+        @click="states.add_number(props.id,5)",
+        data-cy="btn-5"
+      ).q-mb-md 5
+    q-btn.q-ma-md.col-1(
+        rounded,
+        color="primary",
+        @click="states.add_number(props.id,6)",
+        data-cy="btn-6"
+      ).q-mb-md 6
+  .row.justify-center.items-center
+    q-btn.q-ma-md.col-1(
+        rounded,
+        color="primary",
+        @click="states.add_number(props.id,7)",
+        data-cy="btn-7"
+      ).q-mb-md 7
+    q-btn.q-ma-md.col-1(
+        rounded,
+        color="primary",
+        @click="states.add_number(props.id,8)",
+        data-cy="btn-8"
+      ).q-mb-md 8
+    q-btn.q-ma-md.col-1(
+        rounded,
+        color="primary",
+        @click="states.add_number(props.id,9)",
+        data-cy="btn-9"
+      ).q-mb-md 9
+  .row.justify-center.items-center
+    q-btn.q-ma-md.col-1(
+        rounded,
+        color="primary",
+        @click="states.add_number(props.id,11)",
+        data-cy="btn--"
+      ).q-mb-md -
+    q-btn.q-ma-md.col-1(
+        rounded,
+        color="primary",
+        @click="states.add_number(props.id,0)",
+        data-cy="btn-0"
+      ).q-mb-md 0
+    q-btn.q-ma-md.col-1(
+        rounded,
+        color="primary",
+        @click="states.add_number(props.id,12)",
+        data-cy="btn-12"
+      ).q-mb-md .
+  
+  .row.justify-center.items-center
+      q-btn.q-ma-md.col-1(
+        rounded,
+
+        @click="states.storeCounter(props.id)",
+        data-cy="btn-save"
+      )
+        q-tooltip(anchor="top left").bg-teal save to local storage
+        q-icon(name="save", size="md")
+
+      q-btn.q-ma-md.col-1(
+        rounded,
+        @click="states.restoreCounter(props.id)",
+        data-cy="btn-restore"
+      )
+        q-tooltip(anchor="top left").bg-teal restore from local storage
+        q-icon(name="restore", size="md")
+      q-btn.q-ma-md.col-1(
+        rounded,
+        @click="states.delCounter(props.id)",
+        data-cy="btn-del"
+      )
+        q-tooltip(anchor="top left").bg-teal delete
+        q-icon(name="delete", size="md")
 </template>
