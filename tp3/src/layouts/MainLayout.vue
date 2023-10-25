@@ -19,8 +19,8 @@ q-layout(view="hHh lpR fFf")
         span.text-yellow-2 app
       q-space
       q-tabs(shrink dense no-caps align="right")
-        q-route-tab(to="/", exact, label="Keypad Operand")
-        q-route-tab(to="/2", exact, label="Input Operand")
+        q-route-tab(to="/", exact, label="Keypad Operand",data-cy="btn-keypad-operand")
+        q-route-tab(to="/input", exact, label="Input Operand", data-cy="btn-input-operand")
         q-route-tab(to="/about", exact, label="About")
         q-route-tab(to="/config", exact, icon="settings")
   q-page-container
