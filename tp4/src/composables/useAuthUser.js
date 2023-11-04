@@ -1,6 +1,7 @@
 import { ref, computed } from "vue";
 import useSupabase from "boot/supabase";
 
+
 // user is set outside of the useAuthUser function
 // so that it will act as global state and always refer to a single user
 const user = ref(null);
@@ -28,12 +29,20 @@ export default function useAuthUser() {
     return data.user;
   };
 
-  // signin with social network account such as google, github, etc
-  // const signInWithSocialProvider = async (provider) => {
-  //   const { user, error } = await supabase.auth.signIn({ provider })
-  //   if (error) throw error
-  //   return user
-  // }
+  const signInWithGoogle = async () => {
+    try {
+      const { user, error } = await supabase.auth.signIn({ provider: 'google' });
+      
+      if (error) {
+        throw error;
+      }
+      
+      return user;
+    } catch (error) {
+      console.error('Erreur lors de la connexion avec Google:', error.message);
+      throw error;
+    }
+  };
 
   // Logout
   const signOut = async () => {
@@ -91,7 +100,7 @@ export default function useAuthUser() {
   return {
     isSignedIn,
     signIn,
-    // signInWithSocialProvider,
+    //signInWithGoogle,
     signOut,
     signUp,
     user,

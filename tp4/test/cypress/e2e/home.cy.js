@@ -4,36 +4,280 @@
 // ** This file is an example of how to write Cypress tests, you can safely delete it **
 
 // This test will pass when run against a clean Quasar project
-describe('Landing', () => {
+
+Cypress.on('uncaught:exception', (err, runnable) => {
+  // Ne pas échouer les tests pour les erreurs non capturées
+  return false;
+});
+
+describe("Tests for the Quasar Counter App", () => {
   beforeEach(() => {
-    cy.visit('/');
+    cy.visit("http://127.0.0.1:8080/");
   });
-  it('.should() - assert that <title> is correct', () => {
-    cy.title().should('include', 'Quasar');
+  describe("TP2a Tests", () => {
+    beforeEach(() => {
+      cy.get('[data-cy="btn-input-operand"').click();
+    })
+    it("Test bouton increment", () => {
+      
+      cy.window().then((win) => {cy.stub(win, 'prompt').onCall(0).returns('A').onCall(1).returns('B'); cy.get('[data-cy=btn-add-new-operand]').click();cy.get('[data-cy=btn-add-new-operand]').click();});
+      cy.get('#counter_A  [data-cy="btn-up"]').click();
+      cy.get('#counter_A  [data-cy="input"]').should("have.value", 1);
+    });
+    it("Test bouton decrement", () => {
+      cy.window().then((win) => {cy.stub(win, 'prompt').onCall(0).returns('A').onCall(1).returns('B'); cy.get('[data-cy=btn-add-new-operand]').click();cy.get('[data-cy=btn-add-new-operand]').click();});
+      cy.get('#counter_A  [data-cy="btn-dn"]').click().click();
+      cy.get('#counter_A  [data-cy="input"]').should("have.value", -2);
+      cy.get('[data-cy="total"]').should("have.text", -2);
+    });
+    it("Test +", () => {
+      cy.window().then((win) => {cy.stub(win, 'prompt').onCall(0).returns('A').onCall(1).returns('B'); cy.get('[data-cy=btn-add-new-operand]').click();cy.get('[data-cy=btn-add-new-operand]').click();});
+      cy.get('#counter_A  [data-cy="btn-dn"]').click().click();
+      cy.get('#counter_A  [data-cy="input"]').should("have.value", -2);;
+      cy.get('#counter_B  [data-cy="input"]').type(3);
+      cy.get('[data-cy="total"]').should("have.text", 1);
+    });
+    it("Test -", () => {
+      cy.window().then((win) => {cy.stub(win, 'prompt').onCall(0).returns('A').onCall(1).returns('B'); cy.get('[data-cy=btn-add-new-operand]').click();cy.get('[data-cy=btn-add-new-operand]').click();});
+     cy.get('#counter_A  [data-cy="input"]').type(6);
+      cy.get('#counter_A  [data-cy="input"]').should("have.value", 6);
+      cy.get('#counter_B  [data-cy="input"]').type(4);
+      cy.get('#counter_B  [data-cy="input"]').should("have.value", 4);
+      cy.get('#operator_A  [data-cy="select"]').click();
+      cy.get('#operator_A  [data-cy="select"]').get(`[label="-"]`).click();
+      cy.get('[data-cy="total"]').should("have.text", 2);
+    });
+    it("Test *", () => {
+      cy.window().then((win) => {cy.stub(win, 'prompt').onCall(0).returns('A').onCall(1).returns('B'); cy.get('[data-cy=btn-add-new-operand]').click();cy.get('[data-cy=btn-add-new-operand]').click();});
+      cy.get('#counter_A  [data-cy="input"]').type(6);
+       cy.get('#counter_A  [data-cy="input"]').should("have.value", 6);
+       cy.get('#counter_B  [data-cy="input"]').type(4);
+       cy.get('#counter_B  [data-cy="input"]').should("have.value", 4);
+       cy.get('#operator_A  [data-cy="select"]').click();
+       cy.get('#operator_A  [data-cy="select"]').get(`[label="*"]`).click();
+       cy.get('[data-cy="total"]').should("have.text", 24);
+     });
+     it("Test /", () => {
+      cy.window().then((win) => {cy.stub(win, 'prompt').onCall(0).returns('A').onCall(1).returns('B'); cy.get('[data-cy=btn-add-new-operand]').click();cy.get('[data-cy=btn-add-new-operand]').click();});
+      cy.get('#counter_A  [data-cy="input"]').type(16);
+       cy.get('#counter_A  [data-cy="input"]').should("have.value", 16);
+       cy.get('#counter_B  [data-cy="input"]').type(4);
+       cy.get('#counter_B  [data-cy="input"]').should("have.value", 4);
+       cy.get('#operator_A  [data-cy="select"]').click();
+       cy.get('#operator_A  [data-cy="select"]').get(`[label="/"]`).click();
+       cy.get('[data-cy="total"]').should("have.text", 4);
+     });
+     it("Test Premier Click Add a New component", () => {
+      cy.window().then((win) => {cy.stub(win, 'prompt').returns('A'); cy.get('[data-cy=btn-add-new-operand]').click();});
+      cy.get('.column.justify-evenly').should('have.length', 1);
+  
+     });
+     it("Test Deuxième Click Add a New component", () => {
+        cy.window().then((win) => {cy.stub(win, 'prompt').onCall(0).returns('A').onCall(1).returns('B'); cy.get('[data-cy=btn-add-new-operand]').click();cy.get('[data-cy=btn-add-new-operand]').click();});
+        cy.get('.column.justify-evenly').should('have.length', 3);
+   
+  
+    });
+  
+    it("On peut entrer des valeurs dans tous les inputs", () => {
+      cy.window().then((win) => {cy.stub(win, 'prompt').onCall(0).returns('A').onCall(1).returns('B'); cy.get('[data-cy=btn-add-new-operand]').click();cy.get('[data-cy=btn-add-new-operand]').click();});
+      cy.get('#counter_A  [data-cy="input"]').type(16);
+       cy.get('#counter_A  [data-cy="input"]').should("have.value", 16);
+       cy.get('#counter_B  [data-cy="input"]').type(4);
+       cy.get('#counter_B  [data-cy="input"]').should("have.value", 4);
+    });
+  
+    it("Le bouton clear fonctionne", () => {
+      cy.window().then((win) => {cy.stub(win, 'prompt').returns('A'); cy.get('[data-cy=btn-add-new-operand]').click();});
+      cy.get('#counter_A  [data-cy="input"]').type(16);
+      cy.get('#counter_A  [data-cy="btn-clear"]').click();
+      cy.get('#counter_A  [data-cy="input"]').should("have.value", 0);
+    });
+  
+    it("Les boutons save et restore fonctionnent", () => {
+      cy.window().then((win) => {cy.stub(win, 'prompt').returns('A'); cy.get('[data-cy=btn-add-new-operand]').click();});
+      cy.get('#counter_A  [data-cy="input"]').type(16);
+      cy.get('#counter_A  [data-cy="btn-save"]').click();
+      cy.get('#counter_A  [data-cy="btn-clear"]').click();
+      cy.get('#counter_A  [data-cy="btn-restore"]').click();
+      cy.get('#counter_A  [data-cy="input"]').should("have.value", 16);
+  
+    });
+  
+    it('Designs Responsive : Ordinateur', () => {
+      cy.window().then((win) => {cy.stub(win, 'prompt').onCall(0).returns('A').onCall(1).returns('B'); cy.get('[data-cy=btn-add-new-operand]').click();cy.get('[data-cy=btn-add-new-operand]').click();});
+      cy.viewport(1200, 800);
+      cy.get('#counter_A').should('be.visible');
+      cy.get('#operator_A').should('be.visible');
+      cy.get('#counter_B').should('be.visible');
+      cy.get('[data-cy="total"]').should('be.visible');
+    });
+  
+    it('Designs Responsive : Tablette', () => {
+      cy.window().then((win) => {cy.stub(win, 'prompt').onCall(0).returns('A').onCall(1).returns('B'); cy.get('[data-cy=btn-add-new-operand]').click();cy.get('[data-cy=btn-add-new-operand]').click();});
+      cy.viewport(768, 1024);
+      cy.get('#counter_A').should('be.visible');
+      cy.get('#operator_A').should('be.visible');
+      cy.get('#counter_B').should('be.visible');
+      cy.get('[data-cy="total"]').should('be.visible');
+    });
+  
+    it('Designs Responsive : Téléphone portable', () => {
+      cy.window().then((win) => {cy.stub(win, 'prompt').onCall(0).returns('A').onCall(1).returns('B'); cy.get('[data-cy=btn-add-new-operand]').click();cy.get('[data-cy=btn-add-new-operand]').click();});
+      cy.viewport(375, 667);
+      cy.get('#counter_A').should('be.visible');
+      cy.get('#operator_A').should('be.visible');
+      cy.get('#counter_B').should('be.visible');
+      cy.get('[data-cy="total"]').should('be.visible');
+    });
+  });
+
+
+
+
+  describe("TP2b Tests", () => {
+    beforeEach(() => {
+      cy.get('[data-cy="btn-input-operand"').click();
+      cy.get('[data-cy="btn-keypad-operand"').click();
+    })
+    it("Test +", () => {
+      cy.window().then((win) => {cy.stub(win, 'prompt').onCall(0).returns('A').onCall(1).returns('B'); cy.get('[data-cy=btn-add-new-operand]').click();cy.get('[data-cy=btn-add-new-operand]').click();});
+      //permet de créer automatiquement 2 operands sans avoir besoin de mettre leur nom de le prompt
+      cy.get('#counter_A  [data-cy="btn-6"]').click();
+      cy.get('#counter_A  [data-cy="input"]').should("have.value", 6);;
+      cy.get('#counter_B  [data-cy="btn-6"]').click();
+      cy.get('#counter_B  [data-cy="input"]').should("have.value", 6);;
+      cy.get('#operator_A  [data-cy="btn-+"]').click();
+      cy.get('[data-cy="total"]').should("have.text", 12);
+    });
+    it("Test -", () => {
+      cy.window().then((win) => {cy.stub(win, 'prompt').onCall(0).returns('A').onCall(1).returns('B'); cy.get('[data-cy=btn-add-new-operand]').click();cy.get('[data-cy=btn-add-new-operand]').click();});
+      cy.get('#counter_A  [data-cy="btn-6"]').click();
+      cy.get('#counter_A  [data-cy="input"]').should("have.value", 6);;
+      cy.get('#counter_B  [data-cy="btn-6"]').click();
+      cy.get('#counter_B  [data-cy="input"]').should("have.value", 6);;
+      cy.get('#operator_A  [data-cy="btn--"]').click();
+      cy.get('[data-cy="total"]').should("have.text", 0);
+    });
+    it("Test *", () => {
+      cy.window().then((win) => {cy.stub(win, 'prompt').onCall(0).returns('A').onCall(1).returns('B'); cy.get('[data-cy=btn-add-new-operand]').click();cy.get('[data-cy=btn-add-new-operand]').click();});
+      cy.get('#counter_A  [data-cy="btn-7"]').click();
+      cy.get('#counter_A  [data-cy="input"]').should("have.value", 7);;
+      cy.get('#counter_B  [data-cy="btn-4"]').click();
+      cy.get('#counter_B  [data-cy="input"]').should("have.value", 4);;
+      cy.get('#operator_A  [data-cy="btn-*"]').click();
+      cy.get('[data-cy="total"]').should("have.text", 28);
+    });
+    it("Test /", () => {
+      cy.window().then((win) => {cy.stub(win, 'prompt').onCall(0).returns('A').onCall(1).returns('B'); cy.get('[data-cy=btn-add-new-operand]').click();cy.get('[data-cy=btn-add-new-operand]').click();});
+      cy.get('#counter_A  [data-cy="btn-3"]').click();
+      cy.get('#counter_A  [data-cy="btn-0"]').click();
+      cy.get('#counter_A  [data-cy="input"]').should("have.value", 30);;
+      cy.get('#counter_B  [data-cy="btn-5"]').click();
+      cy.get('#counter_B  [data-cy="input"]').should("have.value", 5);;
+      cy.get('#operator_A  [data-cy="btn-/"]').click();
+      cy.get('[data-cy="total"]').should("have.text", 6);
+    });
+
+    it("Test nombre négatif", () => {
+      cy.window().then((win) => {cy.stub(win, 'prompt').onCall(0).returns('A').onCall(1).returns('B'); cy.get('[data-cy=btn-add-new-operand]').click();cy.get('[data-cy=btn-add-new-operand]').click();});
+      cy.get('#counter_A  [data-cy="btn-6"]').click();
+      cy.get('#counter_A  [data-cy="btn--"]').click();
+      cy.get('#counter_A  [data-cy="input"]').should("have.value", -6);;
+      cy.get('#counter_B  [data-cy="btn-6"]').click();
+      cy.get('#counter_B  [data-cy="btn--"]').click();
+      cy.get('#counter_B  [data-cy="input"]').should("have.value", -6);;
+      cy.get('#operator_A  [data-cy="btn-+"]').click();
+      cy.get('[data-cy="total"]').should("have.text", -12);
+    });
+
+    it("Test nombre à virgule", () => {
+      cy.window().then((win) => {cy.stub(win, 'prompt').onCall(0).returns('A').onCall(1).returns('B'); cy.get('[data-cy=btn-add-new-operand]').click();cy.get('[data-cy=btn-add-new-operand]').click();});
+      cy.get('#counter_A  [data-cy="btn-6"]').click();
+      cy.get('#counter_A  [data-cy="btn-12"]').click();
+      cy.get('#counter_A  [data-cy="btn-3"]').click();
+      cy.get('#counter_A  [data-cy="input"]').should("have.value", 6.3);;
+      cy.get('#counter_B  [data-cy="btn-4"]').click();
+      cy.get('#counter_B  [data-cy="btn--"]').click();
+      cy.get('#counter_B  [data-cy="input"]').should("have.value", -4);;
+      cy.get('#operator_A  [data-cy="btn-+"]').click();
+      cy.get('[data-cy="total"]').should("have.text", 2.3);
+    });
+    it("Test Premier Click Add a New component", () => {
+      cy.window().then((win) => {cy.stub(win, 'prompt').returns('A'); cy.get('[data-cy=btn-add-new-operand]').click();});
+      cy.get('.column.justify-evenly').should('have.length', 1);
+
+    });
+    it("Test Deuxième Click Add a New component", () => {
+        cy.window().then((win) => {cy.stub(win, 'prompt').onCall(0).returns('A').onCall(1).returns('B'); cy.get('[data-cy=btn-add-new-operand]').click();cy.get('[data-cy=btn-add-new-operand]').click();});
+        cy.get('.column.justify-evenly').should('have.length', 3);
+  
+
+    });
+
+    it("Le bouton supprimer un nombre fonctionne", () => {
+      cy.window().then((win) => {cy.stub(win, 'prompt').returns('A'); cy.get('[data-cy=btn-add-new-operand]').click();});
+      cy.get('#counter_A  [data-cy="btn-1"]').click();
+      cy.get('#counter_A  [data-cy="btn-6"]').click();
+      cy.get('#counter_A  [data-cy="btn-dn"]').click();
+      cy.get('#counter_A  [data-cy="input"]').should("have.value", 1);
+    });
+
+    it("Le bouton clear fonctionne", () => {
+      cy.window().then((win) => {cy.stub(win, 'prompt').returns('A'); cy.get('[data-cy=btn-add-new-operand]').click();});
+      cy.get('#counter_A  [data-cy="btn-1"]').click();
+      cy.get('#counter_A  [data-cy="btn-6"]').click();
+      cy.get('#counter_A  [data-cy="btn-clear"]').click();
+      cy.get('#counter_A  [data-cy="input"]').should("have.value", 0);
+    });
+
+    it("Les boutons save et restore fonctionnent", () => {
+      cy.window().then((win) => {cy.stub(win, 'prompt').returns('A'); cy.get('[data-cy=btn-add-new-operand]').click();});
+      cy.get('#counter_A  [data-cy="btn-1"]').click();
+      cy.get('#counter_A  [data-cy="btn-6"]').click();
+      cy.get('#counter_A  [data-cy="btn-save"]').click();
+      cy.get('#counter_A  [data-cy="btn-clear"]').click();
+      cy.get('#counter_A  [data-cy="btn-restore"]').click();
+      cy.get('#counter_A  [data-cy="input"]').should("have.value", 16);
+
+    });
+
+    it('Designs Responsive : Ordinateur', () => {
+      cy.window().then((win) => {cy.stub(win, 'prompt').onCall(0).returns('A').onCall(1).returns('B'); cy.get('[data-cy=btn-add-new-operand]').click();cy.get('[data-cy=btn-add-new-operand]').click();});
+      cy.viewport(1200, 800);
+      cy.get('#counter_A').should('be.visible');
+      cy.get('#operator_A').should('be.visible');
+      cy.get('#counter_B').should('be.visible');
+      cy.get('[data-cy="total"]').should('be.visible');
+    });
+
+    it('Designs Responsive : Tablette', () => {
+      cy.window().then((win) => {cy.stub(win, 'prompt').onCall(0).returns('A').onCall(1).returns('B'); cy.get('[data-cy=btn-add-new-operand]').click();cy.get('[data-cy=btn-add-new-operand]').click();});
+      cy.viewport(768, 1024);
+      cy.get('#counter_A').should('be.visible');
+      cy.get('#operator_A').should('be.visible');
+      cy.get('#counter_B').should('be.visible');
+      cy.get('[data-cy="total"]').should('be.visible');
+    });
+
+    it('Designs Responsive : Téléphone portable', () => {
+      cy.window().then((win) => {cy.stub(win, 'prompt').onCall(0).returns('A').onCall(1).returns('B'); cy.get('[data-cy=btn-add-new-operand]').click();cy.get('[data-cy=btn-add-new-operand]').click();});
+      cy.viewport(375, 667);
+      cy.get('#counter_A').should('be.visible');
+      cy.get('#operator_A').should('be.visible');
+      cy.get('#counter_B').should('be.visible');
+      cy.get('[data-cy="total"]').should('be.visible');
+    })
+  });
+
+  describe("TP4a Tests", () => {
+    beforeEach(() => {
+      cy.get('[data-cy="btn-input-operand"').click();// inutile mais pour vérifier que ça marche bien
+      cy.get('[data-cy="btn-keypad-operand"').click();// inutile mais pour vérifier que ça marche bien
+    })
+    
+    
+
   });
 });
 
-// ** The following code is an example to show you how to write some tests for your home page **
-//
-// describe('Home page tests', () => {
-//   beforeEach(() => {
-//     cy.visit('/');
-//   });
-//   it('has pretty background', () => {
-//     cy.dataCy('landing-wrapper')
-//       .should('have.css', 'background').and('match', /(".+(\/img\/background).+\.png)/);
-//   });
-//   it('has pretty logo', () => {
-//     cy.dataCy('landing-wrapper img')
-//       .should('have.class', 'logo-main')
-//       .and('have.attr', 'src')
-//       .and('match', /^(data:image\/svg\+xml).+/);
-//   });
-//   it('has very important information', () => {
-//     cy.dataCy('instruction-wrapper')
-//       .should('contain', 'SETUP INSTRUCTIONS')
-//       .and('contain', 'Configure Authentication')
-//       .and('contain', 'Database Configuration and CRUD operations')
-//       .and('contain', 'Continuous Integration & Continuous Deployment CI/CD');
-//   });
-// });

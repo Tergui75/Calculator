@@ -26,31 +26,18 @@ const operator = computed({
 <template lang="pug">
 .column.justify-evenly(:id="'operator_' + props.id")
   .row.justify-center.items-center
-    p.q-ma-md.text-h5.text-purple-9.self-center {{ operator }}
+    p.q-ma-md.text-h5.text-purple-9.self-center
   .column.items-end.self-end
     .q-py-lg
-      q-btn.q-ma-md.col-1(
-      
-      color="primary",
-      @click="operator = '+'",
-      data-cy="btn-+"
-    ).q-mb-md +
-      q-btn.q-ma-md.col-1(
-      
-      color="primary",
-      @click="operator = '-'",
-      data-cy="btn--"
-    ).q-mb-md -
-    .row.justify-center.items-center
-      q-btn.q-ma-md.col-1(  
-      color="primary",
-      @click="operator ='*'",
-      data-cy="btn-*"
-    ).q-mb-md *
-      q-btn.q-ma-md.col-1(     
-      color="primary",
-      @click="operator ='/'",
-      data-cy="btn-/"
-    ).q-mb-md /
-
-    </template>
+      q-btn-dropdown(color="primary" :label="operator" split size="lg" data-cy="select").fixed-width
+        q-item(
+        v-for="op in ['+', '-', '*', '/']"
+        :key="op"
+        :label="op"
+        clickable
+        @click="operator = op"
+        v-close-popup
+        )
+        q-item-section(side)
+          span.text-h5.text-weight-bold {{ op }}
+</template>

@@ -10,7 +10,7 @@ defineComponent({ name: 'SignUpComponent' })
 
 const router = useRouter()
 const { signUp, user } = useAuthUser()
-//const userName = user.user_metadata.name
+const userName = user.user_metadata.name
 const { notifyError, notifySuccess } = useNotify()
 const form = reactive({
   name: '',
@@ -21,7 +21,7 @@ const form = reactive({
 const handleSignUp = async () => {
   try {
     user.value = await signUp(form)
-    // ({ email, password } = form.value)
+    ({ email, password } = form.value)
     notifySuccess(`Successful sign up as ${ form.email } and automatically signed in`)
     router.push({
       name: 'emailConfirmationPage',

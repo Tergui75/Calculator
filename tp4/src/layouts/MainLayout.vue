@@ -36,8 +36,8 @@ q-layout(view="hHh lpR fFf")
         span.text-yellow-2 starter app
       q-space
       q-tabs(shrink dense no-caps align="right")
-        q-route-tab(to="/", exact, label="Home")
-        q-route-tab(to="/about", exact, label="About")
+        q-route-tab(to="/", exact, label="Keypad Operand",data-cy="btn-keypad-operand")
+        q-route-tab(to="/input", exact, label="Input Operand", data-cy="btn-input-operand")
         q-route-tab(v-if="!isSignedIn", label="Sign In", icon="login", to="/signInPage")
         template(v-if="isSignedIn")
           q-route-tab(label="Sign Out", icon="logout", to="/", @click="handleSignOut")

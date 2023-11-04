@@ -8,6 +8,11 @@ const routes = [
         path: "",
         component: () => import("pages/IndexPage.vue"),
       },
+      {
+        name: "IndexPage2",
+        path: "input",
+        component: () => import("pages/IndexPage2.vue"),
+      },
       { path: "about", component: () => import("pages/AboutPage.vue") },
       {
         name: "signInPage",
