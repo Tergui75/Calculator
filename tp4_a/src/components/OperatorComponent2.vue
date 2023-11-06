@@ -38,6 +38,7 @@ const operator = computed({
         @click="operator = op"
         v-close-popup
         )
-        q-item-section(side)
-          span.text-h5.text-weight-bold {{ op }}
+          q-item-section(side)
+            span.text-h5.text-weight-bold {{ op }}
 </template>
+
