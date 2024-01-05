@@ -152,43 +152,57 @@ export default function useAPI() {
         }
       } else //si l'élément n'existe pas dans la table counters
       {
-        alert("Please save before share");
+        addToServer(id);
       }
     };
 
-    const pullfromServer = async()=> {
+    const pullfromServer = async () => {
       console.log("user.value.id = " + user.value.id);
+    
+      // Fetch all records from counters_shared matching the user's ID
       const { data: data0, error: error0 } = await supabase
         .from("counter_shared")
         .select()
-        .match({ shared_with: user.value.id});
-      if (error0) throw error;
+        .match({ shared_with: user.value.id });
+    
+      if (error0) {
+        console.error(error0);
+        throw error0;
+      }
+    
       if (data0 !== undefined && data0.length > 0) {
-        //L'élémént existe  dans la table
         console.log("counters: ", data0);
-        const lenght = data0.length;
-        //console.log("lenght= "+ lenght);
-        for(var i=0;i<lenght;){
-
+    
+        // Iterate through each record in counters_shared
+        for (let i = 0; i < data0.length; i++) {
+          const counterSharedRecord = data0[i];
+    
+          // Fetch the corresponding record from the counters table
           const { data, error } = await supabase
             .from("counters")
             .select()
-            .match({id:data0[i].counter_id});
-          console.log("counters 2: ", data);  
+            .match({ id: counterSharedRecord.counter_id });
+    
+          console.log("counters 2: ", data);
+    
           if (error) {
-            console.log(error);
+            console.error(error);
             throw error;
-          }   
-          const name = (data[0].user).toString() + ":" + (data[0].letter).toString();
-          states.counters[name] = data[0].counter;
-          states.operator[name]=ref('+');
-          i++;
+          }
+    
+          if (data && data.length > 0) {
+            const name =
+              data[0].user.toString() + ":" + data[0].letter.toString();
+            states.counters[name] = data[0].counter;
+            states.operator[name] = ref('+');
+          }
         }
-      } else //si l'élément n'existe pas dans la table counters
-      {
-        alert("We can't shared this element");
+      } else {
+        // If no records found in counters_shared
+        alert("We can't share this element");
       }
     };
+    
     
 
   return {

@@ -171,7 +171,7 @@ const counterValue = computed({
             color="primary",
             @click="states.storeCounter(props.id)",
             data-cy="btn-save"
-            label="Save to LS"
+            label="Persit to LS"
           )
             q-icon(name="save", size="md")
       q-btn.q-ma-md.col(
@@ -179,7 +179,7 @@ const counterValue = computed({
             color="primary",
             @click="states.restoreCounter(props.id)",
             data-cy="btn-restore"
-            label="Restore from LS"
+            label="Sync from LS"
           )
             q-icon(name="restore", size="md")
   .row.justify-center.items-center
@@ -188,15 +188,8 @@ const counterValue = computed({
           color="primary",
           data-cy="btn-save-serv",
           @click="addToServer(props.id)"
-          label="Save to DB"
+          label="Persist to Derver"
         )
           q-icon(name="download", size="md")
-      q-btn.q-ma-md.col(
-        rounded,
-        color="primary",
-        data-cy="btn-restore-serv",
-        @click="restoreToServer(props.id)"
-        label="Restore from DB"
-      )
-        q-icon(name="upload", size="md")
+     
 </template>
