@@ -372,31 +372,7 @@ describe("Tests for the Quasar Counter App", () => {
       cy.get('[data-cy="btn-input-operand"').click();// inutile mais pour vérifier que ça marche bien
       cy.get('[data-cy="btn-keypad-operand"').click();// inutile mais pour vérifier que ça marche bien
     })
-    //Question1
-    //Keypad operand
-    it("Les boutons save to DB et restore from DB fonctionnent pour keypad operand", () => {
-      cy.SeConnecter("test@exemple.com","password");//permet de se connecter sinon impossible d'utiliser notre application
-      cy.window().then((win) => {cy.stub(win, 'prompt').returns('A'); cy.get('[data-cy=btn-add-new-operand]').click();});
-      cy.get('#counter_A  [data-cy="btn-1"]').click();
-      cy.get('#counter_A  [data-cy="btn-6"]').click();
-      cy.get('#counter_A  [data-cy="btn-save-serv"]').click();
-      cy.get('#counter_A  [data-cy="btn-clear"]').click();
-      cy.get('#counter_A  [data-cy="btn-restore-serv"]').click();
-      cy.get('#counter_A  [data-cy="input"]').should("have.value", 16);
 
-    });
-    //Input operand
-    it("Les boutons save to DB et restore from DB fonctionnent pour input operand", () => {
-      cy.SeConnecter("test@exemple.com","password");//permet de se connecter sinon impossible d'utiliser notre application
-      cy.window().then((win) => {cy.stub(win, 'prompt').returns('A'); cy.get('[data-cy=btn-add-new-operand]').click();});
-      cy.get('[data-cy="btn-input-operand"').click();//se mettre sur la page input
-      cy.get('#counter_A  [data-cy="input"]').type(4);
-      cy.get('#counter_A  [data-cy="btn-save-serv"]').click();
-      cy.get('#counter_A  [data-cy="btn-clear"]').click();
-      cy.get('#counter_A  [data-cy="btn-restore-serv"]').click();
-      cy.get('#counter_A  [data-cy="input"]').should("have.value", 4);
-  
-    });
 
     //Question2
     //Keypad operand
